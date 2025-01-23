@@ -4,12 +4,12 @@ run-name: ${{ github.actor }}
 on:
   push:
     branches:
-      - main
-      - !development
+      - 'main'
+      - '!development'
   pull_request:
     branches:
-      - main
-      - !development
+      - 'main'
+      - '!development'
 
 jobs:
   bokman-front-end-action:
