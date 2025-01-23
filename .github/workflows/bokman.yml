@@ -5,14 +5,17 @@ on:
   push:
     branches:
       - main
+      - !development
+  pull_request:
+    branches:
+      - main
+      - !development
 
 jobs:
-  handle-merge:
-    runs-on: ubuntu-latest
+  bokman-front-end-action:
+    runs-on: ubuntu-24.04
     steps:
-      - name: Check out the repository
-        uses: actions/checkout@v4
+      - name: Say Hello World
+        run: echo "Hello World"
 
-      - name: Get the last commit message
-        run: |
-          echo "Last commit message: $(git log -1 --pretty=%B)"
+
