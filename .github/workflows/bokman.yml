@@ -14,12 +14,17 @@ on:
 jobs:
   build-container:
     runs-on: self-hosted
-    steps:
-      - name: Echo hello-world
-        run: echo "Bokman"
-
-      - name: Echo bokman
-        run: echo "liu kang"
+    steps:      
+      - name: Delete code
+        run: | 
+          rm -rf *
+          rm -rf .github
+          rm -rf .env
+        working-directory: ./home/prk/docker/ci-cd-practice
       
-      - name: Test hapus
-        run: rm -rf /home/prk/docker/ci-cd-practice/*
+      - name: Pull from main branch
+        run: git pull origin main
+        working-directory: ./home/prk/docker/ci-cd-practice
+      
+      - name: run and build the image
+        run: docker compose up -d --build
