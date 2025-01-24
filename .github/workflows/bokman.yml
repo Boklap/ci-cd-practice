@@ -16,7 +16,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Echo hello-world
-        uses: echo Hello bokman
+        run: echo Hello bokman
         
       - name: checkout branch
         uses: actions/checkout@v2
