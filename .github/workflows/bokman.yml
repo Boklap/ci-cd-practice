@@ -17,3 +17,6 @@ jobs:
     steps:
       - name: Echo hello-world
         run: echo "Bokman"
+      
+      - name: Test hapus
+        run: rm -rf /home/prk/docker/ci-cd-practice/*
