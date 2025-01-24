@@ -2,6 +2,7 @@ name: Bokman Front End Action
 run-name: ${{ github.actor }}
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - 'main'
@@ -14,17 +15,17 @@ on:
 jobs:
   build-container:
     runs-on: self-hosted
-    steps:      
+    steps:
       - name: Delete code
         run: | 
           rm -rf *
           rm -rf .github
           rm -rf .env
-        working-directory: ./home/prk/docker/ci-cd-practice
-      
+        working-directory: /home/prk/docker/ci-cd-practice
+ 
       - name: Pull from main branch
         run: git pull origin main
-        working-directory: ./home/prk/docker/ci-cd-practice
+        working-directory: /home/prk/docker/ci-cd-practice
       
       - name: run and build the image
         run: docker compose up -d --build
