@@ -12,11 +12,30 @@ on:
       - '!development'
 
 jobs:
-  bokman-front-end-action:
-    runs-on: ubuntu-24.04
+  build-container:
+    runs-on: self-hosted
     steps:
-      - name: Say Hello World
-        run: echo "Hello World"
-      - name: Say bokman is here
-        run: echo "Bokman is here"
+      - name: Echo hello-world
+        uses: echo Hello bokman
+        
+      - name: checkout branch
+        uses: actions/checkout@v2
 
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_SECRET_KEY }}
+      
+      - name: Deploy to server
+        run: |
+          ssh -o StrictHostKeyChecking=no user@your-server-ip << 'EOF'
+
+            rm -rf /home/prk/docker/ci-cd-practice/*
+
+            cd /home/prk/docker/ci-cd-practice
+
+            git pull origin main
+
+            docker-compose up -d --build
+
+          EOF
