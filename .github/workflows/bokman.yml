@@ -16,15 +16,14 @@ jobs:
   build-container:
     runs-on: self-hosted
     steps:
+      - name: testing
+        run: echo "hee"
+        
       - name: Delete code
         run: | 
           rm -rf *
           rm -rf .github
           rm -rf .env
-        working-directory: /home/prk/docker/ci-cd-practice
-
-      - name: create a file
-        run: touch ferdy-sambo.txt
         working-directory: /home/prk/docker/ci-cd-practice
 
       - name: Pull from main branch
