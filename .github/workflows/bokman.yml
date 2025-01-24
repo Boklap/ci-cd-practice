@@ -30,5 +30,8 @@ jobs:
         run: git pull origin main
         working-directory: /home/prk/docker/ci-cd-practice
       
-      - name: run and build the image
-        run: docker compose up -d --build
+      - name: rebuild and re run image
+        run: |
+          docker compose down
+          docker compose up -d --build
+        working-directory: /home/prk/docker/ci-cd-practice
