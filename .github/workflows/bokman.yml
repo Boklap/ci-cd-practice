@@ -22,7 +22,11 @@ jobs:
           rm -rf .github
           rm -rf .env
         working-directory: /home/prk/docker/ci-cd-practice
- 
+
+      - name: create a file
+        run: touch ferdy-sambo.txt
+        working-directory: /home/prk/docker/ci-cd-practice
+
       - name: Pull from main branch
         run: git pull origin main
         working-directory: /home/prk/docker/ci-cd-practice
