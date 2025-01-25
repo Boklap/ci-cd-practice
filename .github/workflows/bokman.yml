@@ -18,23 +18,23 @@ jobs:
     steps:
       - name: stop backend service
         run: docker compose -f back-end-docker-compose.yml down
-        working-directory: /home/prk/docker-learn/ci-cd-practice
+        working-directory: /home/bokman/docker-learn/ci-cd-practice
       
       - name: stop frontend service
         run: docker compose -f front-end-docker-compose.yml down
-        working-directory: /home/prk/docker-learn/ci-cd-practice
+        working-directory: /home/bokman/docker-learn/ci-cd-practice
         
       - name: drop project
         run: rm -rf ci-cd-practice
-        working-directory: /home/prk/docker-learn
+        working-directory: /home/bokman/docker-learn
 
       - name: clone the latest project version
         run: git clone https://github.com/Boklap/ci-cd-practice.git
-        working-directory: /home/prk/docker-learn
+        working-directory: /home/bokman/docker-learn
       
       - name: rebuild and re run backend
         run: docker compose -f back-end-docker-compose.yml up -d --build
-        working-directory: /home/prk/docker-learn/ci-cd-practice
+        working-directory: /home/bokman/docker-learn/ci-cd-practice
 
       - name: Wait for backend service to be ready
         run: |
