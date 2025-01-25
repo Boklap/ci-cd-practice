@@ -3,7 +3,7 @@ version: "3.8"
 services:
   backend:
     build:
-      context: ./backend
+      context: ./back-end
       dockerfile: Dockerfile
     healthcheck:
       test: ["CMD", "curl", "--silent", "--fail", "http://localhost:${BACK_END_PORT}"]
