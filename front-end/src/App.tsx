@@ -10,7 +10,7 @@ function App() {
   const callApi = async () => {
 
     try {
-      const response = await axios.get('http://192.168.19.131:6969/api/increment')
+      const response = await axios.get('http://192.168.19.131:3000/api/increment')
       console.log( response.data )
     }
 

@@ -6,7 +6,7 @@ services:
       context: ./back-end
       dockerfile: Dockerfile
     healthcheck:
-      test: ["CMD", "curl", "--silent", "--fail", "http://localhost:${BACK_END_PORT}"]
+      test: ["CMD", "curl", "--silent", "--fail", "http://localhost:${BACK_END_PORT}/api/increment"]
       interval: 30s
       retries: 3
       timeout: 10s
