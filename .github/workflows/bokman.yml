@@ -36,7 +36,7 @@ jobs:
         run: docker compose -f back-end-docker-compose.yml up -d --build
         working-directory: /home/prk/docker-learn/ci-cd-practice
 
-     - name: Wait for backend service to be ready
+      - name: Wait for backend service to be ready
         run: |
           MAX_RETRIES=12  # Set max retries (e.g., wait for 1 minute)
           RETRY_COUNT=0
