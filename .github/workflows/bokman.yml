@@ -41,7 +41,7 @@ jobs:
           MAX_RETRIES=12  # Set max retries (e.g., wait for 1 minute)
           RETRY_COUNT=0
           
-          until curl --silent --fail http://localhost:${{ secrets.BACK_END_PORT }}; do
+          until curl --silent --fail http://localhost:${{ secrets.BACK_END_PORT }}/api/increment; do
             echo "Waiting for backend to be ready... (Attempt $((RETRY_COUNT + 1)) of $MAX_RETRIES)"
             RETRY_COUNT=$((RETRY_COUNT + 1))
             

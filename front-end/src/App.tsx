@@ -11,7 +11,7 @@ function App() {
 
     try {
       const response = await axios.get('http://192.168.19.131:6969/api/increment')
-      console.log( response )
+      console.log( response.data )
     }
 
     catch( err ) {
