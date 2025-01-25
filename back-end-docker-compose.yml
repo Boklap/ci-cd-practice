@@ -1,12 +1,12 @@
 version: "3.8"
 
 services:
-  front-end:
+  backend:
     build:
-      context: ./front-end
+      context: ./backend
       dockerfile: Dockerfile
     healthcheck:
-      test: ["CMD", "curl", "--silent", "--fail", "http://localhost:5173"]
+      test: ["CMD", "curl", "--silent", "--fail", "http://localhost:${BACK_END_PORT}"]
       interval: 30s
       retries: 3
       timeout: 10s
@@ -14,10 +14,10 @@ services:
     env_file:
       - .env
     ports:
-      - "${FRONT_END_PORT}:5173"
+      - "${BACK_END_PORT}:${BACK_END_PORT}"
     networks:
-      - bokman-network
+      - bokman_network
 
 networks:
-  bokman-network:
-  
+  bokman_network:
+    driver: bridge

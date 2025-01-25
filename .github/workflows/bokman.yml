@@ -16,24 +16,65 @@ jobs:
   build-container:
     runs-on: self-hosted
     steps:
-      - name: testing
-        run: echo "hee"
-        
-      - name: Delete code
-        run: | 
-          rm -rf *
-          rm -rf .github
-          rm -rf .env
-        working-directory: /home/prk/docker/ci-cd-practice
-
-      - name: Pull from main branch
-        run: |
-          git fetch origin
-          git reset --hard origin/main
-        working-directory: /home/prk/docker/ci-cd-practice
+      - name: stop backend service
+        run: docker compose -f back-end-docker-compose.yml down
+        working-directory: /home/prk/docker-learn/ci-cd-practice
       
-      - name: rebuild and re run image
+      - name: stop frontend service
+        run: docker compose -f front-end-docker-compose.yml down
+        working-directory: /home/prk/docker-learn/ci-cd-practice
+        
+      - name: drop project
+        run: rm -rf ci-cd-practice
+        working-directory: /home/prk/docker-learn
+
+      - name: clone the latest project version
+        run: git clone https://github.com/Boklap/ci-cd-practice.git
+        working-directory: /home/prk/docker-learn
+      
+      - name: rebuild and re run backend
+        run: docker compose -f back-end-docker-compose.yml up -d --build
+        working-directory: /home/prk/docker-learn/ci-cd-practice
+
+     - name: Wait for backend service to be ready
         run: |
-          docker compose down
-          docker compose up -d --build
-        working-directory: /home/prk/docker/ci-cd-practice
+          MAX_RETRIES=12  # Set max retries (e.g., wait for 1 minute)
+          RETRY_COUNT=0
+          
+          until curl --silent --fail http://localhost:${{ secret.BACK_END_PORT }}; do
+            echo "Waiting for backend to be ready... (Attempt $((RETRY_COUNT + 1)) of $MAX_RETRIES)"
+            RETRY_COUNT=$((RETRY_COUNT + 1))
+            
+            # Check if max retries are exceeded
+            if [ $RETRY_COUNT -ge $MAX_RETRIES ]; then
+              echo "Backend did not start in time, failing the action."
+              exit 1  # Exit with an error to fail the action
+            fi
+            
+            sleep 5
+          done
+          
+          echo "Backend is ready!"
+
+      - name: rebuild and re run frontend
+        run: docker compose -f front-end-docker-compose.yml up -d --build
+        working-directory: /home/bokman/docker-learn/ci-cd-practice
+      
+      - name: wait for frontend service to be ready
+        run: |
+          MAX_RETRIES=12
+          RETRY_COUNT=0
+
+          until curl --silent --fail http://localhost:${{ secret.FRONT_END_PORT }}; do
+            echo "Waiting for frontend to be ready... (Attempt $((RETRY_COUNT + 1)) of $MAX_RETRIES)"
+            RETRY_COUNT=$((RETRY_COUNT + 1))
+
+            if [ $RETRY_COUNT -ge $MAX_RETRIES ]; then
+              echo "Backend did not start in time, failing the action."
+              exit 1
+            fi
+
+            sleep 5
+          done
+          
+          echo "Front end is ready!"
